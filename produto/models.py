@@ -1,7 +1,6 @@
 from django.db import models
 from utils.resize_image import resizeImage
 
-# Create your models here.
 class Produto(models.Model):
     class Meta:
         verbose_name = 'Produto'
