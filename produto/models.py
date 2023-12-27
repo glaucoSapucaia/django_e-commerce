@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-from utils import resizeImage
+from utils import resizeImage, tools
 
 class Produto(models.Model):
     class Meta:
@@ -28,8 +28,13 @@ class Produto(models.Model):
     
     @property
     def getPreco(self):
-        return f'R$ {self.preco_marketing:.2f}'.replace('.', ',')
+        return tools.formataPreco(self.preco_marketing)
     getPreco.fget.short_description = "Preço"
+
+    @property
+    def getPrecoPromocional(self):
+        return tools.formataPreco(self.preco_marketing_promocional)
+    getPrecoPromocional.fget.short_description = "Preço Promocional"
 
     def save(self, *args, **kwargs):
         if not self.slug:
