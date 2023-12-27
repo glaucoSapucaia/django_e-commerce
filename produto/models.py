@@ -1,5 +1,5 @@
 from django.db import models
-from utils.resize_image import resizeImage
+from utils import resizeImage
 
 class Produto(models.Model):
     class Meta:
