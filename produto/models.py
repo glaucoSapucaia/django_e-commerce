@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from utils import resizeImage
 
 class Produto(models.Model):
@@ -10,14 +11,14 @@ class Produto(models.Model):
     descricao_curta = models.TextField(max_length=255)
     descricao_longa =models.TextField()
     imagem = models.ImageField(upload_to='produto_imagens/%Y/%m', blank=True, null=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     preco_marketing = models.FloatField()
     preco_marketing_promocional = models.FloatField(default=0)
     tipo = models.CharField(
         default='V',
         max_length=1,
         choices = (
-            ('V', 'Variação'),
+            ('V', 'Variavel'),
             ('S', 'Simples'),
         ),
     )
@@ -25,7 +26,16 @@ class Produto(models.Model):
     def __str__(self) -> str:
         return self.nome
     
+    @property
+    def getPreco(self):
+        return f'R$ {self.preco_marketing:.2f}'.replace('.', ',')
+    getPreco.fget.short_description = "Preço"
+
     def save(self, *args, **kwargs):
+        if not self.slug:
+            slug = slugify(f'{self.nome}')
+            self.slug = slug
+
         super().save(*args, **kwargs)
 
         if self.imagem:
