@@ -150,6 +150,6 @@ class Carrinho(View):
         }
         return render(self.request, 'produto/carrinho.html', context)
 
-class Finalizar(View):
+class Resumo(View):
     def get(self, *args, **kwargs):
         return HttpResponse('Finalizar')
