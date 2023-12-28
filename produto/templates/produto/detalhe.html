@@ -36,13 +36,16 @@
             <form action="{% url "produto:adicionar" %}" id="form-add-to-cart">
                 <div class="form-group">
                     <select id="select-variacoes" name="vid" class="form-control form-control-lg">
-                        {% for variacao in produto.variacao_set.all %}
-                            <option data-preco="{{variacao.preco | formataPreco}}" data-preco-promocional="
-                            {{variacao.preco_promocional | formataPreco}}"
-                            value="{{variacao.pk}}">
-                            {{variacao.nome}}
-                            </option>
-                        {% endfor %}
+
+                            {% for variacao in produto.variacao_set.all %}
+
+                                <option data-preco="{{variacao.preco | formataPreco}}" data-preco-promocional="
+                                {{variacao.preco_promocional | formataPreco}}"
+                                value="{{variacao.pk}}">
+                                {{variacao.nome}}
+                                </option>
+
+                            {% endfor %}
                         
                     </select>
                 </div>
