@@ -46,6 +46,10 @@ INSTALLED_APPS = [
 
     # debug toolbar
     "debug_toolbar",
+
+    #forms
+    'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -159,3 +163,5 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
