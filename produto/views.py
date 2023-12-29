@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.db.models import Q
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views import View
@@ -12,7 +13,7 @@ class ListaProdutos(ListView):
     model = Produto
     template_name = 'produto/lista.html'
     context_object_name = 'produtos'
-    paginate_by = 3
+    paginate_by = 1
     ordering = ('-pk',)
 
 class DetalheProduto(DetailView):
@@ -175,3 +176,20 @@ class Resumo(View):
         }
 
         return render(self.request, 'produto/resumo.html', context)
+
+class Busca(ListaProdutos):
+    def get_queryset(self, *args, **kwargs):
+        termo = self.request.GET.get('termo') or self.request.session['termo']
+        query_set = super().get_queryset(*args, **kwargs)
+
+        if not termo:
+            return query_set
+        
+        self.request.session['termo'] = termo
+
+        query_set = query_set.filter(
+            Q(nome__icontains=termo) |
+            Q(descricao_curta__icontains=termo) |
+            Q(descricao_longa__icontains=termo),
+        )
+        return query_set
