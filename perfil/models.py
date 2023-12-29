@@ -61,6 +61,17 @@ class Perfil(models.Model):
     def clean(self) -> None:
         error_messages = {}
 
+        # unique cpf hard code
+        cpf_enviado = self.cpf or None
+        cpf_salvo = None
+        perfil = Perfil.objects.filter(cpf=cpf_enviado).first()
+
+        if perfil:
+            cpf_salvo = perfil.cpf
+
+            if cpf_salvo is not None and self.pk != perfil.pk:
+                error_messages['cpf'] = 'Cpf de outro usuário!'
+
         if not cpfValidate(self.cpf):
             error_messages['cpf'] = 'CPF inválido!'
 
