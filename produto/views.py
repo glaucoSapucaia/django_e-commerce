@@ -6,8 +6,7 @@ from django.views import View
 from django.http import HttpResponse
 from django.contrib import messages
 from produto.models import Produto, Variacao
-
-from pprint import pprint
+from perfil.models import Perfil
 
 class ListaProdutos(ListView):
     model = Produto
@@ -154,6 +153,21 @@ class Resumo(View):
     def get(self, *args, **kwargs):
         if not self.request.user.is_authenticated:
             return redirect('perfil:criar')
+
+        perfil = Perfil.objects.filter(usuario=self.request.user).exists()
+        if not perfil:
+            messages.error(
+                self.request,
+                'Usuário sem perfil!'
+            )
+            return redirect('perfil:criar')
+
+        if not self.request.session['carrinho']:
+            messages.info(
+                self.request,
+                'Carrinho vazio!'
+            )
+            return redirect('produto:lista')
 
         context = {
             'usuario': self.request.user,
