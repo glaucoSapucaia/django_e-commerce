@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load value_filters %}
 
+{% block page_title %}
+    Detalhe de {{produto.nome}} |
+{% endblock page_title %}
+
 {% block conteudo %}
 <div class="row">
     <div class="col-lg">
