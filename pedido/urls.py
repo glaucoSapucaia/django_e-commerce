@@ -6,6 +6,6 @@ app_name = 'pedido'
 urlpatterns = [
     path('pagar/<int:pk>', Pagar.as_view(), name='pagar'),
     path('salvar-pedido/', SalvarPedido.as_view(), name='salvar'),
-    path('detalhes/', Detalhes.as_view(), name='detalhes'),
+    path('detalhes/<int:pk>', Detalhes.as_view(), name='detalhes'),
     path('lista/', Lista.as_view(), name='lista'),
 ]
