@@ -3,11 +3,17 @@
 
 {% block conteudo %}
     <div class="row">
+
+        {% if not request.user.is_authenticated %}
         <div class="col-lg">
             <h1>login</h1>
         </div>
+        {% endif %}
+
         <div class="col-lg">
-            <h1>cadastro</h1>
+            {% block titulo_cadastro %}
+            <h1>Cadastro</h1>
+            {% endblock titulo_cadastro %}
 
             <form action="" method="POST">
                 {% csrf_token %}
